@@ -1,11 +1,12 @@
 package controller
 
 import (
-	"bookcommunity/config"
-	"bookcommunity/model"
-	"bookcommunity/middleware"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/shiminjia/bookcommunity/config"
+	"github.com/shiminjia/bookcommunity/middleware"
+	"github.com/shiminjia/bookcommunity/model"
 )
 
 func CreateUser(c *gin.Context) {
@@ -38,7 +39,7 @@ func Logout(c *gin.Context) {
 		middleware.ErrorResponse(c, http.StatusBadRequest, config.UnverifiedError_1)
 		return
 	}
-	if token != "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZX" +
+	if token != "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZX"+
 		"JuYW1lIjoiYWRtaW4ifQ.LjxrK9DuAwAzUD8-9v43NzWBN7HXsSLfebw92DKd1JQ" {
 		middleware.ErrorResponse(c, http.StatusBadRequest, config.UnverifiedError_2)
 		return
@@ -49,7 +50,7 @@ func Logout(c *gin.Context) {
 
 func GetUserInfo(c *gin.Context) {
 	token := c.GetHeader("Authorization")
-	if token != "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZXJ" +
+	if token != "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZXJ"+
 		"uYW1lIjoiYWRtaW4ifQ.LjxrK9DuAwAzUD8-9v43NzWBN7HXsSLfebw92DKd1JQ" {
 		middleware.ErrorResponse(c, http.StatusBadRequest, config.UnverifiedError_2)
 		return
@@ -64,7 +65,7 @@ func GetUserInfo(c *gin.Context) {
 
 func ModifyUserInfo(c *gin.Context) {
 	token := c.GetHeader("Authorization")
-	if token != "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZXJ" +
+	if token != "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZXJ"+
 		"uYW1lIjoiYWRtaW4ifQ.LjxrK9DuAwAzUD8-9v43NzWBN7HXsSLfebw92DKd1JQ" {
 		middleware.ErrorResponse(c, http.StatusBadRequest, config.UnverifiedError_2)
 		return
@@ -79,9 +80,9 @@ func ModifyUserInfo(c *gin.Context) {
 	middleware.NormalResponse(c, http.StatusOK, config.OK, "")
 }
 
-func DeleteUser(c *gin.Context){
+func DeleteUser(c *gin.Context) {
 	token := c.GetHeader("Authorization")
-	if token != "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZXJ" +
+	if token != "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZXJ"+
 		"uYW1lIjoiYWRtaW4ifQ.LjxrK9DuAwAzUD8-9v43NzWBN7HXsSLfebw92DKd1JQ" {
 		middleware.ErrorResponse(c, http.StatusBadRequest, config.UnverifiedError_2)
 		return

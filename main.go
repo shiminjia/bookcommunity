@@ -1,8 +1,8 @@
 package main
 
 import (
-	"bookcommunity/controller"
 	"github.com/gin-gonic/gin"
+	"github.com/shiminjia/bookcommunity/controller"
 )
 
 func main() {
@@ -17,7 +17,6 @@ func main() {
 
 	router.Run(":8080")
 }
-
 
 //todo 日志答应
 //拦截请求

@@ -1,10 +1,11 @@
 package middleware
 
 import (
-	"bookcommunity/config"
-	"bookcommunity/model"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/shiminjia/bookcommunity/config"
+	"github.com/shiminjia/bookcommunity/model"
 )
 
 func NormalResponse(c *gin.Context, httpstatus int, code int, data interface{}) {
@@ -16,7 +17,7 @@ func NormalResponse(c *gin.Context, httpstatus int, code int, data interface{}) 
 	c.JSON(httpstatus, resp)
 }
 
-func ErrorResponse(c *gin.Context, httpstatus int, code int){
+func ErrorResponse(c *gin.Context, httpstatus int, code int) {
 	resp := &model.ErrorResponse{
 		Code:              code,
 		Message:           http.StatusText(httpstatus),
