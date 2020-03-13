@@ -18,7 +18,6 @@ func main() {
 	router.Run(":8080")
 }
 
-// I dont like Chinese letters.
 //todo 日志答应
 //拦截请求
 
