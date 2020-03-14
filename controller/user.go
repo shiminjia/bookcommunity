@@ -1,12 +1,11 @@
 package controller
 
 import (
-	"net/http"
-
+	"bookcommunity/config"
+	"bookcommunity/middleware"
+	"bookcommunity/model"
 	"github.com/gin-gonic/gin"
-	"github.com/shiminjia/bookcommunity/config"
-	"github.com/shiminjia/bookcommunity/middleware"
-	"github.com/shiminjia/bookcommunity/model"
+	"net/http"
 )
 
 func CreateUser(c *gin.Context) {

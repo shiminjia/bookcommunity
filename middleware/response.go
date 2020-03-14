@@ -1,11 +1,10 @@
 package middleware
 
 import (
-	"net/http"
-
+	"bookcommunity/config"
+	"bookcommunity/model"
 	"github.com/gin-gonic/gin"
-	"github.com/shiminjia/bookcommunity/config"
-	"github.com/shiminjia/bookcommunity/model"
+	"net/http"
 )
 
 func NormalResponse(c *gin.Context, httpstatus int, code int, data interface{}) {
