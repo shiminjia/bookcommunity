@@ -1,0 +1,5 @@
+steps:
+  - name: 'github.com/shiminjia/bookcommunity'
+    args: ['go', 'mod', 'vendor']
+  - name: 'github.com/shiminjia/bookcommunity'
+    args: ['app', 'deploy']
