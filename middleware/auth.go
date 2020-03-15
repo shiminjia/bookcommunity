@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"bookcommunity/config"
+	"bookcommunity/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -14,11 +15,13 @@ func AuthRequired() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		if token != "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZX"+
-			"JuYW1lIjoiYWRtaW4ifQ.LjxrK9DuAwAzUD8-9v43NzWBN7HXsSLfebw92DKd1JQ" {
-			ErrorResponse(c, http.StatusBadRequest, config.UnverifiedError_2)
+
+		if bool := utils.VerifyToken(token); bool != true {
+			ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_2)
 			c.Abort()
 			return
 		}
+
+		c.Next()
 	}
 }

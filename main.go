@@ -1,19 +1,54 @@
 package main
 
 import (
+	"bookcommunity/config"
 	"bookcommunity/controller"
 	"bookcommunity/middleware"
 	"github.com/gin-gonic/gin"
+	"io"
+	"os"
 )
 
+func getConfig()(string, string) {
+	mode := config.MODE
+	if mode == "" {
+		mode = "dev"
+	}
+
+	addr := config.ADDR
+	if addr == "" {
+		addr = ":8080"
+	}
+
+	return mode, addr
+}
+
+
 func main() {
+
 	router := gin.New()
 
+	mode, addr := getConfig()
+
 	//use middleware
-	router.Use(gin.Logger())
+	if mode == "dev" {
+		router.Use(gin.Logger())
+	} else if mode == "test" {
+		router.Use(gin.Logger())
+		f, _ := os.Create("gin.log")
+		gin.DefaultWriter = io.MultiWriter(f)
+	} else if mode == "prod" {
+		gin.DisableConsoleColor()
+		//todo need to change the name of log like yyyyMMdd.log
+		f, _ := os.Create("gin.log")
+		gin.DefaultWriter = io.MultiWriter(f)
+	} else {
+		router.Use(gin.Logger())
+	}
+
 	router.Use(gin.Recovery())
 
-	//the router that no need to auth
+	//declaim the router that no need to auth
 	router.POST("/users", controller.CreateUser)
 	router.PUT("/users", controller.Login)
 
@@ -29,22 +64,7 @@ func main() {
 		authorized.DELETE("/users/:username", controller.DeleteUser)
 	}
 
-	router.Run(":8080")
+	router.Run(addr)
 }
 
-//
-// 1.output
-// output the log at the console only when mode is development.
-// output the log at the console and log file when mode is test/debug.
-// output the log at log file when mode is production.
-//
-// 2.config file
-// a config need to include three patten of configuraion which is development, test/debug and production.
-//
-// 3.jwt middleware
-//
-// 4.use database
-//
-// 5.Intercept invalid access
-//
 

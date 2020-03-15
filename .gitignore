@@ -4,6 +4,7 @@
 *.iml
 
 *.exe
+*.log
 bookcommunity
 
-
+vendor
