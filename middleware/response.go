@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"bookcommunity/config"
-	"bookcommunity/model"
+	"github.com/shiminjia/bookcommunity/config"
+	"github.com/shiminjia/bookcommunity/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

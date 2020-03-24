@@ -1,4 +1,4 @@
-module bookcommunity
+module github.com/shiminjia/bookcommunity
 
 go 1.12
 

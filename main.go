@@ -1,10 +1,10 @@
 package main
 
 import (
-	"bookcommunity/config"
-	"bookcommunity/controller"
-	"bookcommunity/middleware"
 	"github.com/gin-gonic/gin"
+	"github.com/shiminjia/bookcommunity/config"
+	"github.com/shiminjia/bookcommunity/controller"
+	"github.com/shiminjia/bookcommunity/middleware"
 	"io"
 	"os"
 )

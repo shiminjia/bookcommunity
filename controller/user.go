@@ -1,10 +1,10 @@
 package controller
 
 import (
-	"bookcommunity/config"
-	"bookcommunity/middleware"
-	"bookcommunity/model"
-	"bookcommunity/utils"
+	"github.com/shiminjia/bookcommunity/config"
+	"github.com/shiminjia/bookcommunity/middleware"
+	"github.com/shiminjia/bookcommunity/model"
+	"github.com/shiminjia/bookcommunity/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
