@@ -1,11 +1,11 @@
 package controller
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/shiminjia/bookcommunity/config"
 	"github.com/shiminjia/bookcommunity/middleware"
 	"github.com/shiminjia/bookcommunity/model"
 	"github.com/shiminjia/bookcommunity/utils"
-	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
@@ -24,7 +24,7 @@ func CreateUser(c *gin.Context) {
 		Email:    "d.Email",
 		Username: "d.Username",
 	}
-	t, err := utils.CreateToken(ctx);
+	t, err := utils.CreateToken(ctx)
 	if err != nil {
 		middleware.ErrorResponse(c, http.StatusInternalServerError, config.CreateTokenError)
 	}
@@ -46,8 +46,8 @@ func Login(c *gin.Context) {
 	//todo get user info from db by user name
 	//this is a demo now
 	var d = model.UserInfoWithId{
-		Id: "1234",
-		Email: "zhangsan@gmail.com",
+		Id:       "1234",
+		Email:    "zhangsan@gmail.com",
 		Username: "zhangsan",
 		Password: "11111111",
 	}
@@ -64,7 +64,7 @@ func Login(c *gin.Context) {
 		Email:    "d.Email",
 		Username: "d.Username",
 	}
-	t, err := utils.CreateToken(ctx);
+	t, err := utils.CreateToken(ctx)
 	if err != nil {
 		middleware.ErrorResponse(c, http.StatusInternalServerError, config.CreateTokenError)
 		return

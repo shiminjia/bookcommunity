@@ -1,14 +1,14 @@
 package middleware
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/shiminjia/bookcommunity/config"
 	"github.com/shiminjia/bookcommunity/utils"
-	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func AuthRequired() gin.HandlerFunc {
-	return func(c *gin.Context){
+	return func(c *gin.Context) {
 		token := c.GetHeader("Authorization")
 		if token == "" {
 			ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_1)

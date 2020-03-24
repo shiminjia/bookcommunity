@@ -12,15 +12,15 @@ type Context struct {
 	Username string
 }
 
-func CreateToken(ctx *Context)(tokenString string, err error){
+func CreateToken(ctx *Context) (tokenString string, err error) {
 	secret := os.Getenv("JWT_SECRET")
 
 	//claim a new token by NewWithClaims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id":       ctx.Id,
 		"username": ctx.Username,
-		"nbf":      time.Now().Unix(),    //creation time
-		"iat":      time.Now().Unix(),    //
+		"nbf":      time.Now().Unix(), //creation time
+		"iat":      time.Now().Unix(), //
 	})
 
 	//sign the token
@@ -33,5 +33,3 @@ func VerifyToken(token string) bool {
 	return true
 
 }
-
-

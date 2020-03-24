@@ -1,16 +1,16 @@
 package config
 
 const (
-	OK                  = 0
+	OK = 0
 
 	InternalServerError = 10001
 	ErrBind             = 10002
 	CreateTokenError    = 10010
 
-	UnverifiedError_0   = 20002
-	UnverifiedError_1   = 20003
-	UnverifiedError_2   = 20004
-	ErrUserNotFound     = 20102
+	UnverifiedError_0 = 20002
+	UnverifiedError_1 = 20003
+	UnverifiedError_2 = 20004
+	ErrUserNotFound   = 20102
 )
 
 var codeText = map[int]string{

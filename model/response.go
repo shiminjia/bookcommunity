@@ -17,4 +17,3 @@ type ErrorResponse struct {
 	Message           string      `form:"message" json:"message" xml:"message"`
 	Developer_Message interface{} `form:"develop_message" json:"develop_message" xml:"develop_message"`
 }
-

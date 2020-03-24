@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-func getConfig()(string, string) {
+func getConfig() (string, string) {
 	mode := config.MODE
 	if mode == "" {
 		mode = "dev"
@@ -22,7 +22,6 @@ func getConfig()(string, string) {
 
 	return mode, addr
 }
-
 
 func main() {
 
@@ -66,5 +65,3 @@ func main() {
 
 	router.Run(addr)
 }
-
-
