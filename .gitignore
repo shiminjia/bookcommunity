@@ -1,0 +1,10 @@
+/.idea
+
+*.xml
+*.iml
+
+*.exe
+*.log
+bookcommunity
+
+vendor

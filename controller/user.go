@@ -1,35 +1,77 @@
 package controller
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/shiminjia/bookcommunity/config"
 	"github.com/shiminjia/bookcommunity/middleware"
 	"github.com/shiminjia/bookcommunity/model"
+	"github.com/shiminjia/bookcommunity/utils"
+	"net/http"
 )
 
 func CreateUser(c *gin.Context) {
-	var json model.CreateUser
-	if err := c.ShouldBindJSON(&json); err != nil {
+	var u model.CreateUser
+
+	//get user info from request
+	if err := c.ShouldBindJSON(&u); err != nil {
 		middleware.ErrorResponse(c, http.StatusBadRequest, config.ErrBind)
 		return
 	}
 
-	data := &model.Token{Token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1M" +
-		"jgwMTY5MjIsInVzZXJuYW1lIjoiYWRtaW4ifQ.LjxrK9DuAwAzUD8-9v43NzWBN7HXsSLfebw92DKd1JQ"}
+	//create a new token
+	var ctx = &utils.Context{
+		Id:       "d.Id",
+		Email:    "d.Email",
+		Username: "d.Username",
+	}
+	t, err := utils.CreateToken(ctx)
+	if err != nil {
+		middleware.ErrorResponse(c, http.StatusInternalServerError, config.CreateTokenError)
+	}
+
+	//set the token in data and return it.
+	data := &model.Token{Token: t}
 	middleware.NormalResponse(c, http.StatusOK, config.OK, data)
 }
 
 func Login(c *gin.Context) {
-	var json model.Login
-	if err := c.ShouldBindJSON(&json); err != nil {
+	var u model.Login
+
+	//get user info from request
+	if err := c.ShouldBindJSON(&u); err != nil {
 		middleware.ErrorResponse(c, http.StatusBadRequest, config.ErrBind)
 		return
 	}
 
-	data := &model.Token{Token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1M" +
-		"jgwMTY5MjIsInVzZXJuYW1lIjoiYWRtaW4ifQ.LjxrK9DuAwAzUD8-9v43NzWBN7HXsSLfebw92DKd1JQ"}
+	//todo get user info from db by user name
+	//this is a demo now
+	var d = model.UserInfoWithId{
+		Id:       "1234",
+		Email:    "zhangsan@gmail.com",
+		Username: "zhangsan",
+		Password: "11111111",
+	}
+
+	//compare the password with request and db
+	if u.Password != d.Password {
+		middleware.ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_0)
+		return
+	}
+
+	//create a new token
+	var ctx = &utils.Context{
+		Id:       "d.Id",
+		Email:    "d.Email",
+		Username: "d.Username",
+	}
+	t, err := utils.CreateToken(ctx)
+	if err != nil {
+		middleware.ErrorResponse(c, http.StatusInternalServerError, config.CreateTokenError)
+		return
+	}
+
+	//set the token in data and return it.
+	data := &model.Token{Token: t}
 	middleware.NormalResponse(c, http.StatusOK, config.OK, data)
 }
 

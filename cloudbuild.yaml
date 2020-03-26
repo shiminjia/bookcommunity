@@ -1,0 +1,12 @@
+steps:
+#  - name: 'gcr.io/cloud-builders/go'
+#    args: ['mod', 'vendor']
+#    env: ['PROJECT_ROOT=bookcommunity']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['app', 'deploy']
+
+
+#artifacts:
+#  objects:
+#    location: 'gs://[BUCKET_NAME]/'
+#    paths: ['hello']
