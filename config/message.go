@@ -7,8 +7,9 @@ const (
 	ErrBind             = 10002
 	CreateTokenError    = 10010
 
-	UnverifiedError = 20002
-	UnverifiedError_JWTNonexist = 20003
+	UnverifiedError = 20001
+	UnverifiedError_JWTNonexist = 20002
+	UnverifiedError_JWTNoBearer = 20003
 	UnverifiedError_JWTInvalid = 20004
 	UnverifiedError_JWTExpired = 20005
 	ErrUserNotFound   = 20102
@@ -20,6 +21,7 @@ var codeText = map[int]string{
 	ErrBind:             "Error occurred while binding the request body to the struct.",
 	UnverifiedError:   "Email or password is wrong.",
 	UnverifiedError_JWTNonexist:   "JWT is not exist.",
+	UnverifiedError_JWTNoBearer:     "No Bearer at the head of JWT. Please check it add Bearer like Bearer XXXXXXXXXXX.",
 	UnverifiedError_JWTInvalid:   "JWT is invalid.",
 	UnverifiedError_JWTExpired:   "JWT is Expired.",
 	CreateTokenError:    "An internal server error occurred when JTW token was created.",
