@@ -9,6 +9,39 @@ import (
 	"os"
 )
 
+func main() {
+
+	router := gin.New()
+
+	//get addr from config
+	_, addr := getConfig()
+
+	//use middleware
+	middlewareRegister(router)
+
+	//router registration
+	//declaim the router that no need to auth
+	router.POST("/auth", controller.Login)
+
+	router.POST("/users", controller.CreateUser)
+
+	//declaim group "/"
+	authorized := router.Group("/")
+
+	//group "/" need to auth
+	authorized.Use(middleware.AuthRequired())
+	{
+		authorized.DELETE("/auth", controller.Logout)
+		authorized.GET("/users/:username", controller.GetUserInfo)
+		authorized.PUT("/users/:username", controller.ModifyUserInfo)
+		//authorized.GET("/users/:username/password", controller.SendChangePasswordMail)
+		//authorized.PUT("/users/:username/password", controller.UpdatePassword)
+		//authorized.DELETE("/users/:username", controller.DeleteUser)
+	}
+
+	router.Run(addr)
+}
+
 func getConfig() (string, string) {
 	mode := config.MODE
 	if mode == "" {
@@ -23,45 +56,29 @@ func getConfig() (string, string) {
 	return mode, addr
 }
 
-func main() {
+func middlewareRegister(router *gin.Engine){
 
-	router := gin.New()
+	//get value from config
+	mode, _ := getConfig()
 
-	mode, addr := getConfig()
-
-	//use middleware
-	if mode == "dev" {
+	//use Logger()
+	switch mode {
+	case "dev":
 		router.Use(gin.Logger())
-	} else if mode == "test" {
+	case "test":
 		router.Use(gin.Logger())
 		f, _ := os.Create("gin.log")
 		gin.DefaultWriter = io.MultiWriter(f)
-	} else if mode == "prod" {
+	case "prod":
 		gin.DisableConsoleColor()
 		//todo need to change the name of log like yyyyMMdd.log
 		f, _ := os.Create("gin.log")
 		gin.DefaultWriter = io.MultiWriter(f)
-	} else {
+	default:
 		router.Use(gin.Logger())
 	}
 
+	//use Recovery()
 	router.Use(gin.Recovery())
 
-	//declaim the router that no need to auth
-	router.POST("/users", controller.CreateUser)
-	router.PUT("/users", controller.Login)
-
-	//declaim group "/"
-	authorized := router.Group("/")
-
-	//group "/" need to auth
-	authorized.Use(middleware.AuthRequired())
-	{
-		authorized.DELETE("/users", controller.Logout)
-		authorized.GET("/users/:username", controller.GetUserInfo)
-		authorized.POST("/users/:username", controller.ModifyUserInfo)
-		authorized.DELETE("/users/:username", controller.DeleteUser)
-	}
-
-	router.Run(addr)
 }
