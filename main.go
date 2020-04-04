@@ -3,7 +3,9 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/shiminjia/bookcommunity/config"
-	"github.com/shiminjia/bookcommunity/controller"
+	"github.com/shiminjia/bookcommunity/controller/auth"
+	"github.com/shiminjia/bookcommunity/controller/user"
+	"github.com/shiminjia/bookcommunity/db"
 	"github.com/shiminjia/bookcommunity/middleware"
 	"io"
 	"os"
@@ -16,14 +18,19 @@ func main() {
 	//get addr from config
 	_, addr := getConfig()
 
+	//DB access
+	db.Init()
+
 	//use middleware
 	middlewareRegister(router)
 
 	//router registration
 	//declaim the router that no need to auth
-	router.POST("/auth", controller.Login)
+	router.GET("/auth", auth.EmailVerification)
+	router.POST("/auth", auth.Login)
 
-	router.POST("/users", controller.CreateUser)
+	router.POST("/users", user.CreateUser)
+	router.GET("/users/:userid", user.GetUserInfo)
 
 	//declaim group "/"
 	authorized := router.Group("/")
@@ -31,9 +38,9 @@ func main() {
 	//group "/" need to auth
 	authorized.Use(middleware.AuthRequired())
 	{
-		authorized.DELETE("/auth", controller.Logout)
-		authorized.GET("/users/:username", controller.GetUserInfo)
-		authorized.PUT("/users/:username", controller.ModifyUserInfo)
+		authorized.DELETE("/auth", auth.Logout)
+
+		authorized.PUT("/users/:userid", user.UpdateUserInfo)
 		//authorized.GET("/users/:username/password", controller.SendChangePasswordMail)
 		//authorized.PUT("/users/:username/password", controller.UpdatePassword)
 		//authorized.DELETE("/users/:username", controller.DeleteUser)
@@ -56,7 +63,7 @@ func getConfig() (string, string) {
 	return mode, addr
 }
 
-func middlewareRegister(router *gin.Engine){
+func middlewareRegister(router *gin.Engine) {
 
 	//get value from config
 	mode, _ := getConfig()
@@ -80,5 +87,4 @@ func middlewareRegister(router *gin.Engine){
 
 	//use Recovery()
 	router.Use(gin.Recovery())
-
 }

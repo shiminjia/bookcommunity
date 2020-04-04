@@ -1,4 +1,4 @@
-package controller
+package auth
 
 import (
 	"github.com/gin-gonic/gin"
@@ -47,8 +47,4 @@ func Login(c *gin.Context) {
 	//set the token in data and return it.
 	data := &model.Token{Token: t}
 	middleware.NormalResponse(c, http.StatusOK, config.OK, data)
-}
-
-func Logout(c *gin.Context) {
-	middleware.NormalResponse(c, http.StatusOK, config.OK, "")
 }

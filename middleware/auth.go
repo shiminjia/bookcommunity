@@ -12,7 +12,7 @@ import (
 func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenbearer := c.GetHeader("Authorization")
-		fmt.Println(tokenbearer)
+
 		if tokenbearer == "" {
 			ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_JWTNonexist)
 			c.Abort()

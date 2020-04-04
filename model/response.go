@@ -7,6 +7,10 @@ type NormalResponse struct {
 	Data    interface{} `form:"data" json:"data" xml:"data"`
 }
 
+type UserId struct {
+	UserId string `form:"user_id" json:"user_id" xml:"user_id"`
+}
+
 type Token struct {
 	Token string `form:"token" json:"token" xml:"token"`
 }

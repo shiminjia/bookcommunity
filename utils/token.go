@@ -18,6 +18,7 @@ type Context struct {
 	Jti      string
 	Id       string
 	Username string
+	Scope    string
 }
 
 func CreateToken(ctx *Context) (tokenString string, err error) {
@@ -41,6 +42,7 @@ func CreateToken(ctx *Context) (tokenString string, err error) {
 		"jti":      uuid.New(),                     //JWT ID
 		"id":       ctx.Id,                         //user id
 		"username": ctx.Username,                   //user name
+		"scope":    ctx.Scope,                      //scope
 	})
 
 	//sign the token
@@ -69,6 +71,7 @@ func ParseToken(tokenString string) (*Context, error) {
 		ctx.Jti = claims["jti"].(string)
 		ctx.Id = claims["id"].(string)
 		ctx.Username = claims["username"].(string)
+		ctx.Scope = claims["scope"].(string)
 		return ctx, nil
 
 		// Other errors.
