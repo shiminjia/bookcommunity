@@ -7,4 +7,6 @@
 *.log
 bookcommunity
 
+envset.sh
+
 vendor

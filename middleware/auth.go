@@ -11,35 +11,44 @@ import (
 
 func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		tokenbearer := c.GetHeader("Authorization")
 
-		if tokenbearer == "" {
-			ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_JWTNonexist)
+		tokenBearer := c.GetHeader("Authorization")
+
+		if tokenBearer == "" {
+			utils.ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_JWTNonexist)
 			c.Abort()
 			return
 		}
 
 		var token string
-		_, err := fmt.Sscanf(tokenbearer, "Bearer %s", &token)
-		fmt.Println(token)
+		_, err := fmt.Sscanf(tokenBearer, "Bearer %s", &token)
 		if err != nil {
-			ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_JWTNoBearer)
+			utils.ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_JWTNoBearer)
 			c.Abort()
 			return
 		}
 
 		ctx, err := utils.ParseToken(token)
 		if err != nil {
-			ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_JWTInvalid)
+			utils.ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_JWTInvalid)
 			c.Abort()
 			return
 		}
 
 		if ctx.Exp < time.Now().Unix() {
-			ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_JWTExpired)
+			utils.ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_JWTExpired)
 			c.Abort()
 			return
 		}
+
+		if ctx.Scope != "login" {
+			utils.ErrorResponse(c, http.StatusUnauthorized, config.UnverifiedError_JWTScopeErr)
+			c.Abort()
+			return
+		}
+
+		//transfer ctx to business login
+		c.Set("tokenId", ctx.Id)
 
 		c.Next()
 	}

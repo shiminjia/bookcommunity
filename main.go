@@ -16,7 +16,7 @@ func main() {
 	router := gin.New()
 
 	//get addr from config
-	_, addr := getConfig()
+	_, port := getConfig()
 
 	//DB access
 	db.Init()
@@ -30,7 +30,7 @@ func main() {
 	router.POST("/auth", auth.Login)
 
 	router.POST("/users", user.CreateUser)
-	router.GET("/users/:userid", user.GetUserInfo)
+	router.GET("/users/:uid", user.GetUserInfo)
 
 	//declaim group "/"
 	authorized := router.Group("/")
@@ -40,13 +40,13 @@ func main() {
 	{
 		authorized.DELETE("/auth", auth.Logout)
 
-		authorized.PUT("/users/:userid", user.UpdateUserInfo)
+		authorized.PUT("/users/:uid", user.UpdateUserInfo)
 		//authorized.GET("/users/:username/password", controller.SendChangePasswordMail)
 		//authorized.PUT("/users/:username/password", controller.UpdatePassword)
 		//authorized.DELETE("/users/:username", controller.DeleteUser)
 	}
 
-	router.Run(addr)
+	router.Run(":" + port)
 }
 
 func getConfig() (string, string) {
@@ -55,12 +55,12 @@ func getConfig() (string, string) {
 		mode = "dev"
 	}
 
-	addr := config.ADDR
-	if addr == "" {
-		addr = ":8080"
+	port := config.PORT
+	if port == "" {
+		port = "8080"
 	}
 
-	return mode, addr
+	return mode, port
 }
 
 func middlewareRegister(router *gin.Engine) {

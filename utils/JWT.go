@@ -16,20 +16,19 @@ type Context struct {
 	Nbf      int64
 	Iat      int64
 	Jti      string
-	Id       string
+	Id       int64
 	Username string
 	Scope    string
 }
 
-func CreateToken(ctx *Context) (tokenString string, err error) {
+func CreateToken(ctx *Context, eft string) (tokenString string, err error) {
 	secret := config.JWT_SECRET
 	iss := config.ISSUER
-	eft := config.JWT_EFFECTIVE_TIME
 
 	//change eft to eft64. eft means effective time of jwt.
 	eft64, err := strconv.ParseInt(eft, 10, 64)
 	if err != nil {
-		eft64 = 24 * 60 * 60                 //one day
+		eft64 = 0
 	}
 
 	//claim a new token by NewWithClaims.
@@ -69,7 +68,7 @@ func ParseToken(tokenString string) (*Context, error) {
 		ctx.Nbf = int64(claims["nbf"].(float64))
 		ctx.Iat = int64(claims["iat"].(float64))
 		ctx.Jti = claims["jti"].(string)
-		ctx.Id = claims["id"].(string)
+		ctx.Id = int64(claims["id"].(float64))
 		ctx.Username = claims["username"].(string)
 		ctx.Scope = claims["scope"].(string)
 		return ctx, nil

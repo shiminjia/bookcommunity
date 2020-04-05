@@ -3,6 +3,7 @@ package db
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/shiminjia/bookcommunity/config"
 	"log"
 )
 
@@ -14,9 +15,16 @@ func Init() {
 }
 
 func DBopen() *gorm.DB {
-	dbconfig := "root:11111111@/book_community?charset=utf8&parseTime=True&loc=Local"
 
-	db, err := gorm.Open("mysql", dbconfig)
+	db_user := config.DB_USER
+	db_password := config.DB_PASSWORD
+	db_database := config.DB_DATABASE
+
+	//"root:11111111@/book_community?charset=utf8&parseTime=True&loc=Local"
+	dbConfig := db_user + ":" + db_password + "@/" +
+		db_database + "?charset=utf8&parseTime=True&loc=Local"
+
+	db, err := gorm.Open("mysql", dbConfig)
 	if err != nil {
 		log.Println("DB access ERROR.")
 		panic("DB access ERROR.")
@@ -29,11 +37,11 @@ func DBopen() *gorm.DB {
 	return db
 }
 
-func CreateTable(db *gorm.DB){
+func CreateTable(db *gorm.DB) {
 
 	//check users table exists or not.
 	//if users table does not exist, create it by User{}
-	bool :=db.HasTable(&User{})
+	bool := db.HasTable(&User{})
 	if !bool {
 		db.Table("users").CreateTable(&User{})
 		log.Println("Table users created.")

@@ -1,4 +1,4 @@
-package middleware
+package utils
 
 import (
 	"github.com/gin-gonic/gin"
@@ -14,6 +14,10 @@ func NormalResponse(c *gin.Context, httpstatus int, code int, data interface{}) 
 		Data:    data,
 	}
 	c.JSON(httpstatus, resp)
+}
+
+func RedirectResponse(c *gin.Context, addr string) {
+	c.Redirect(http.StatusMovedPermanently, addr)
 }
 
 func ErrorResponse(c *gin.Context, httpstatus int, code int) {
